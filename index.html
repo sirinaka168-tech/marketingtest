@@ -61,12 +61,13 @@
 
   /* HERO */
   .hero {
-    min-height: 100vh;
-    display: grid; grid-template-columns: 1.1fr 1fr;
-    align-items: center; gap: 40px;
-    padding: 120px 6% 60px;
+    display: flex; flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding: 100px 6% 80px;
     position: relative;
   }
+  .hero-text { text-align: center; width: 100%; }
   .hero-text h1 {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(50px, 8vw, 110px);
@@ -78,9 +79,9 @@
   }
   .hero-text p {
     font-size: 18px; color: var(--muted);
-    max-width: 480px; margin-bottom: 36px;
+    max-width: 560px; margin: 0 auto 36px;
   }
-  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
   .btn-primary {
     background: var(--accent); color: #fff;
     padding: 16px 36px; border-radius: 40px;
@@ -100,6 +101,7 @@
   .hero-stats {
     display: flex; gap: 40px; margin-top: 60px;
     border-top: 1px solid var(--line); padding-top: 28px;
+    justify-content: center; flex-wrap: wrap;
   }
   .stat-num {
     font-family: 'Bebas Neue', sans-serif;
@@ -108,44 +110,16 @@
   .stat-label { font-size: 13px; color: var(--muted); }
 
   .hero-img {
-    position: relative; height: 600px;
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    height: clamp(360px, 70vh, 720px);
   }
   .hero-img .main-shoe {
     width: 100%; height: 100%; object-fit: cover;
-    border-radius: 30px;
+    border-radius: 24px;
     box-shadow: 0 30px 60px rgba(0,0,0,.15);
   }
-  .badge-circle {
-    position: absolute; top: -20px; right: -20px;
-    width: 130px; height: 130px;
-    background: var(--accent); color: #fff;
-    border-radius: 50%;
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-    text-align: center; font-weight: 700;
-    animation: spin 12s linear infinite;
-    box-shadow: 0 10px 30px rgba(255,90,31,.4);
-  }
-  .badge-circle .pct { font-family: 'Bebas Neue'; font-size: 36px; }
-  .badge-circle .lbl { font-size: 11px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .floating-card {
-    position: absolute; bottom: 30px; left: -30px;
-    background: #fff; padding: 16px 20px;
-    border-radius: 16px; display: flex; gap: 14px; align-items: center;
-    box-shadow: 0 15px 40px rgba(0,0,0,.12);
-    animation: float 3s ease-in-out infinite;
-  }
-  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-  .floating-card .avatar {
-    width: 42px; height: 42px; border-radius: 50%;
-    background: linear-gradient(135deg,#ff5a1f,#ffb800);
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font-weight: 700;
-  }
-  .floating-card .ftxt strong { font-size: 14px; display: block; }
-  .floating-card .ftxt span { font-size: 12px; color: var(--muted); }
 
   /* MARQUEE */
   .marquee {
@@ -344,8 +318,8 @@
 
   /* RESPONSIVE */
   @media (max-width: 960px) {
-    .hero { grid-template-columns: 1fr; padding-top: 100px; }
-    .hero-img { height: 420px; }
+    .hero { padding: 90px 6% 60px; gap: 36px; }
+    .hero-img { height: clamp(260px, 50vh, 480px); }
     .cats { grid-template-columns: repeat(2, 1fr); }
     .products { grid-template-columns: repeat(2, 1fr); }
     .why-grid { grid-template-columns: repeat(2, 1fr); }
@@ -407,6 +381,9 @@
 
 <!-- HERO -->
 <header class="hero">
+  <div class="hero-img">
+    <img class="main-shoe" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1600&q=80" alt="Featured shoe" />
+  </div>
   <div class="hero-text">
     <span class="eyebrow">★ รองเท้ามือสองสภาพดีกว่า 90%</span>
     <h1>เดินด้วย<br/><span class="hl">สไตล์</span> ของคุณ</h1>
@@ -419,17 +396,6 @@
       <div><div class="stat-num">2,500+</div><div class="stat-label">คู่ที่ขายแล้ว</div></div>
       <div><div class="stat-num">100%</div><div class="stat-label">ของแท้ตรวจสอบได้</div></div>
       <div><div class="stat-num">4.9★</div><div class="stat-label">คะแนนรีวิว</div></div>
-    </div>
-  </div>
-  <div class="hero-img">
-    <img class="main-shoe" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=80" alt="Featured shoe" />
-    <div class="badge-circle">
-      <div class="pct">-50%</div>
-      <div class="lbl">SALE TODAY</div>
-    </div>
-    <div class="floating-card">
-      <div class="avatar">✓</div>
-      <div class="ftxt"><strong>ของแท้ 100%</strong><span>Authenticated by experts</span></div>
     </div>
   </div>
 </header>
