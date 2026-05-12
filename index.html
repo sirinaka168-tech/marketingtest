@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SoleMate — ร้านรองเท้ามือสองสภาพดี | Second-Hand Sneakers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #f7f5f0;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --accent: #ff5a1f;
+    --accent-dark: #d94a16;
+    --card: #ffffff;
+    --line: #e8e4dc;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 6%;
+    background: rgba(247, 245, 240, 0.85);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+    border-bottom: 1px solid var(--line);
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; letter-spacing: 2px;
+  }
+  .logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-size: 14px; font-weight: 500; position: relative;
+    transition: color .3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    background: var(--ink); color: #fff;
+    padding: 10px 22px; border-radius: 30px;
+    font-size: 14px; font-weight: 500;
+    transition: transform .2s, background .2s;
+  }
+  .nav-cta:hover { background: var(--accent); transform: translateY(-2px); }
+  .burger { display: none; cursor: pointer; font-size: 26px; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1.1fr 1fr;
+    align-items: center; gap: 40px;
+    padding: 120px 6% 60px;
+    position: relative;
+  }
+  .hero-text h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(50px, 8vw, 110px);
+    line-height: .95; letter-spacing: 1px;
+    margin-bottom: 24px;
+  }
+  .hero-text h1 .hl {
+    color: var(--accent); font-style: italic;
+  }
+  .hero-text p {
+    font-size: 18px; color: var(--muted);
+    max-width: 480px; margin-bottom: 36px;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: #fff;
+    padding: 16px 36px; border-radius: 40px;
+    font-size: 15px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: all .3s; border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-3px); box-shadow: 0 12px 24px rgba(255,90,31,.3); }
+  .btn-secondary {
+    background: transparent; color: var(--ink);
+    border: 2px solid var(--ink);
+    padding: 14px 34px; border-radius: 40px;
+    font-size: 15px; font-weight: 600;
+    transition: all .3s;
+  }
+  .btn-secondary:hover { background: var(--ink); color: #fff; }
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 60px;
+    border-top: 1px solid var(--line); padding-top: 28px;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px; color: var(--accent);
+  }
+  .stat-label { font-size: 13px; color: var(--muted); }
+
+  .hero-img {
+    position: relative; height: 600px;
+  }
+  .hero-img .main-shoe {
+    width: 100%; height: 100%; object-fit: cover;
+    border-radius: 30px;
+    box-shadow: 0 30px 60px rgba(0,0,0,.15);
+  }
+  .badge-circle {
+    position: absolute; top: -20px; right: -20px;
+    width: 130px; height: 130px;
+    background: var(--accent); color: #fff;
+    border-radius: 50%;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; font-weight: 700;
+    animation: spin 12s linear infinite;
+    box-shadow: 0 10px 30px rgba(255,90,31,.4);
+  }
+  .badge-circle .pct { font-family: 'Bebas Neue'; font-size: 36px; }
+  .badge-circle .lbl { font-size: 11px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .floating-card {
+    position: absolute; bottom: 30px; left: -30px;
+    background: #fff; padding: 16px 20px;
+    border-radius: 16px; display: flex; gap: 14px; align-items: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,.12);
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .floating-card .avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg,#ff5a1f,#ffb800);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700;
+  }
+  .floating-card .ftxt strong { font-size: 14px; display: block; }
+  .floating-card .ftxt span { font-size: 12px; color: var(--muted); }
+
+  /* MARQUEE */
+  .marquee {
+    background: var(--ink); color: #fff;
+    overflow: hidden; padding: 18px 0;
+    border-top: 1px solid var(--line);
+  }
+  .marquee-track {
+    display: flex; gap: 60px; white-space: nowrap;
+    animation: scroll 25s linear infinite;
+    font-family: 'Bebas Neue'; font-size: 24px; letter-spacing: 3px;
+  }
+  .marquee-track span { display: flex; align-items: center; gap: 60px; }
+  .marquee-track .dot { color: var(--accent); }
+  @keyframes scroll { to { transform: translateX(-50%); } }
+
+  /* SECTION */
+  section { padding: 100px 6%; }
+  .section-head { text-align: center; margin-bottom: 60px; }
+  .eyebrow {
+    display: inline-block;
+    background: rgba(255,90,31,.1); color: var(--accent);
+    padding: 6px 16px; border-radius: 20px;
+    font-size: 12px; font-weight: 600; letter-spacing: 1px;
+    margin-bottom: 16px; text-transform: uppercase;
+  }
+  .section-head h2 {
+    font-family: 'Bebas Neue'; font-size: clamp(36px,5vw,64px);
+    letter-spacing: 1px; line-height: 1;
+  }
+  .section-head p { color: var(--muted); margin-top: 14px; max-width: 560px; margin-left: auto; margin-right: auto; }
+
+  /* CATEGORIES */
+  .cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .cat {
+    position: relative; height: 280px; border-radius: 20px;
+    overflow: hidden; cursor: pointer;
+  }
+  .cat img { width:100%; height:100%; object-fit: cover; transition: transform .6s; }
+  .cat:hover img { transform: scale(1.1); }
+  .cat::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.7), transparent 60%);
+  }
+  .cat-label {
+    position: absolute; bottom: 20px; left: 20px;
+    color: #fff; z-index: 2;
+  }
+  .cat-label strong { font-family: 'Bebas Neue'; font-size: 24px; letter-spacing: 1px; display:block; }
+  .cat-label span { font-size: 13px; opacity: .9; }
+
+  /* PRODUCTS */
+  .products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .product {
+    background: var(--card); border-radius: 24px;
+    overflow: hidden; transition: transform .3s, box-shadow .3s;
+    border: 1px solid var(--line);
+  }
+  .product:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,.08); }
+  .p-img {
+    aspect-ratio: 1; background: #f0ece3;
+    position: relative; overflow: hidden;
+  }
+  .p-img img { width:100%; height:100%; object-fit: cover; transition: transform .5s; }
+  .product:hover .p-img img { transform: scale(1.08); }
+  .p-tag {
+    position: absolute; top: 14px; left: 14px;
+    background: var(--ink); color: #fff;
+    padding: 5px 12px; font-size: 11px; font-weight: 600;
+    border-radius: 20px; letter-spacing: 1px;
+  }
+  .p-tag.new { background: var(--accent); }
+  .p-tag.hot { background: #ff3d3d; }
+  .p-wish {
+    position: absolute; top: 14px; right: 14px;
+    width: 36px; height: 36px; background: #fff;
+    border-radius: 50%; display: grid; place-items: center;
+    cursor: pointer; transition: all .2s;
+    border: none; font-size: 16px;
+  }
+  .p-wish:hover { background: var(--accent); color: #fff; }
+  .p-info { padding: 20px 22px 24px; }
+  .p-brand { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .p-name { font-size: 17px; font-weight: 600; margin: 4px 0 10px; }
+  .p-bottom { display: flex; justify-content: space-between; align-items: center; }
+  .p-price strong { font-size: 22px; color: var(--accent); }
+  .p-price s { font-size: 13px; color: var(--muted); margin-left: 6px; }
+  .p-cond {
+    font-size: 11px; padding: 4px 10px;
+    background: #eafaf0; color: #1d8a4d;
+    border-radius: 12px; font-weight: 600;
+  }
+
+  /* WHY US */
+  .why { background: #fff; }
+  .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .why-card {
+    text-align: center; padding: 36px 24px;
+    border-radius: 20px; transition: all .3s;
+    border: 1px solid var(--line);
+  }
+  .why-card:hover { background: var(--bg); transform: translateY(-5px); }
+  .why-icon {
+    width: 64px; height: 64px; margin: 0 auto 18px;
+    background: rgba(255,90,31,.1); color: var(--accent);
+    border-radius: 50%; display: grid; place-items: center;
+    font-size: 28px;
+  }
+  .why-card h3 { font-size: 18px; margin-bottom: 8px; }
+  .why-card p { font-size: 14px; color: var(--muted); }
+
+  /* CTA BANNER */
+  .cta-banner {
+    background: var(--ink); color: #fff;
+    border-radius: 32px;
+    padding: 70px 6%; margin: 0 6%;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 40px; align-items: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-banner::before {
+    content: '';
+    position: absolute; right: -100px; top: -100px;
+    width: 400px; height: 400px;
+    background: var(--accent); border-radius: 50%;
+    opacity: .15;
+  }
+  .cta-banner h2 {
+    font-family: 'Bebas Neue'; font-size: clamp(36px, 5vw, 60px);
+    line-height: 1; margin-bottom: 14px;
+  }
+  .cta-banner p { color: #c8c8c8; margin-bottom: 24px; }
+  .cta-banner .accent { color: var(--accent); }
+  .cta-img { position: relative; z-index: 2; }
+  .cta-img img { border-radius: 20px; width: 100%; max-height: 350px; object-fit: cover; }
+
+  /* TESTIMONIALS */
+  .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .review {
+    background: #fff; padding: 32px;
+    border-radius: 20px; border: 1px solid var(--line);
+  }
+  .stars { color: #ffb800; font-size: 18px; margin-bottom: 14px; }
+  .review p { font-size: 15px; margin-bottom: 20px; }
+  .reviewer { display: flex; gap: 12px; align-items: center; }
+  .r-avatar {
+    width: 46px; height: 46px; border-radius: 50%;
+    object-fit: cover;
+  }
+  .r-info strong { display: block; font-size: 14px; }
+  .r-info span { font-size: 12px; color: var(--muted); }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: #fff;
+    padding: 70px 6% 30px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+    gap: 50px; margin-bottom: 50px;
+  }
+  .footer-grid h4 {
+    font-family: 'Bebas Neue'; font-size: 20px;
+    letter-spacing: 1px; margin-bottom: 18px;
+  }
+  .footer-grid ul { list-style: none; }
+  .footer-grid li { margin-bottom: 10px; font-size: 14px; color: #b5b5b5; }
+  .footer-grid li:hover { color: var(--accent); cursor: pointer; }
+  .footer-logo { font-family: 'Bebas Neue'; font-size: 32px; letter-spacing: 2px; margin-bottom: 14px; }
+  .footer-logo span { color: var(--accent); }
+  .socials { display: flex; gap: 12px; margin-top: 16px; }
+  .socials a {
+    width: 40px; height: 40px; background: #2a2a2a;
+    border-radius: 50%; display: grid; place-items: center;
+    transition: background .2s;
+  }
+  .socials a:hover { background: var(--accent); }
+  .newsletter input {
+    width: 100%; padding: 12px 16px; border-radius: 30px;
+    border: 1px solid #333; background: #2a2a2a; color: #fff;
+    margin-bottom: 12px; font-family: inherit;
+  }
+  .newsletter button {
+    width: 100%; padding: 12px;
+    background: var(--accent); color: #fff;
+    border: none; border-radius: 30px;
+    font-family: inherit; font-weight: 600; cursor: pointer;
+    transition: background .2s;
+  }
+  .newsletter button:hover { background: var(--accent-dark); }
+  .footer-bottom {
+    border-top: 1px solid #2a2a2a; padding-top: 24px;
+    display: flex; justify-content: space-between;
+    font-size: 13px; color: #888;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    .hero { grid-template-columns: 1fr; padding-top: 100px; }
+    .hero-img { height: 420px; }
+    .cats { grid-template-columns: repeat(2, 1fr); }
+    .products { grid-template-columns: repeat(2, 1fr); }
+    .why-grid { grid-template-columns: repeat(2, 1fr); }
+    .reviews { grid-template-columns: 1fr; }
+    .cta-banner { grid-template-columns: 1fr; padding: 50px 8%; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .burger { display: block; }
+    .hero-stats { gap: 24px; flex-wrap: wrap; }
+  }
+  @media (max-width: 560px) {
+    .cats, .products, .why-grid, .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+  }
+
+  .m-promo {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 200;
+    line-height: 0;
+  }
+  .m-promo a { display: block; line-height: 0; }
+  .m-promo img { width: 100%; height: auto; display: block; }
+  .m-promo .m-close {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 32px; height: 32px;
+    background: rgba(0,0,0,.6);
+    color: #fff; border: none;
+    border-radius: 50%;
+    font-size: 18px; line-height: 1;
+    cursor: pointer; z-index: 2;
+    display: grid; place-items: center;
+    font-family: inherit;
+  }
+  @media (min-width: 769px) {
+    .m-promo { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">SOLE<span>MATE</span></div>
+  <div class="nav-links">
+    <a href="#products">สินค้า</a>
+    <a href="#cats">หมวดหมู่</a>
+    <a href="#why">ทำไมต้องเรา</a>
+    <a href="#reviews">รีวิว</a>
+    <a href="#contact">ติดต่อ</a>
+  </div>
+  <a href="#products" class="nav-cta">ช้อปเลย</a>
+  <div class="burger">☰</div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-text">
+    <span class="eyebrow">★ รองเท้ามือสองสภาพดีกว่า 90%</span>
+    <h1>เดินด้วย<br/><span class="hl">สไตล์</span> ของคุณ</h1>
+    <p>คัดสรรรองเท้าแบรนด์เนมมือสองสภาพดี ตรวจสอบของแท้ 100% ทำความสะอาดอย่างพิถีพิถัน พร้อมส่งทั่วประเทศ</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-primary">ดูสินค้าทั้งหมด →</a>
+      <a href="#why" class="btn-secondary">เรียนรู้เพิ่มเติม</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">2,500+</div><div class="stat-label">คู่ที่ขายแล้ว</div></div>
+      <div><div class="stat-num">100%</div><div class="stat-label">ของแท้ตรวจสอบได้</div></div>
+      <div><div class="stat-num">4.9★</div><div class="stat-label">คะแนนรีวิว</div></div>
+    </div>
+  </div>
+  <div class="hero-img">
+    <img class="main-shoe" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=80" alt="Featured shoe" />
+    <div class="badge-circle">
+      <div class="pct">-50%</div>
+      <div class="lbl">SALE TODAY</div>
+    </div>
+    <div class="floating-card">
+      <div class="avatar">✓</div>
+      <div class="ftxt"><strong>ของแท้ 100%</strong><span>Authenticated by experts</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>NIKE <em class="dot">●</em> ADIDAS <em class="dot">●</em> NEW BALANCE <em class="dot">●</em> CONVERSE <em class="dot">●</em> VANS <em class="dot">●</em> JORDAN <em class="dot">●</em> PUMA <em class="dot">●</em> ASICS <em class="dot">●</em></span>
+    <span>NIKE <em class="dot">●</em> ADIDAS <em class="dot">●</em> NEW BALANCE <em class="dot">●</em> CONVERSE <em class="dot">●</em> VANS <em class="dot">●</em> JORDAN <em class="dot">●</em> PUMA <em class="dot">●</em> ASICS <em class="dot">●</em></span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section id="cats">
+  <div class="section-head">
+    <span class="eyebrow">หมวดหมู่</span>
+    <h2>เลือกตามสไตล์ของคุณ</h2>
+    <p>หลากหลายสไตล์ทุกโอกาส ทั้งวิ่ง เดิน เล่นกีฬา และไลฟ์สไตล์</p>
+  </div>
+  <div class="cats">
+    <div class="cat">
+      <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80" alt="Sneakers">
+      <div class="cat-label"><strong>Sneakers</strong><span>120+ คู่</span></div>
+    </div>
+    <div class="cat">
+      <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?w=600&q=80" alt="Running">
+      <div class="cat-label"><strong>Running</strong><span>85+ คู่</span></div>
+    </div>
+    <div class="cat">
+      <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&q=80" alt="Casual">
+      <div class="cat-label"><strong>Casual</strong><span>60+ คู่</span></div>
+    </div>
+    <div class="cat">
+      <img src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=600&q=80" alt="Hi-Top">
+      <div class="cat-label"><strong>Hi-Top</strong><span>40+ คู่</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" style="background: #fff;">
+  <div class="section-head">
+    <span class="eyebrow">สินค้าแนะนำ</span>
+    <h2>มาใหม่ล่าสุด</h2>
+    <p>รองเท้ามือสองคัดพิเศษ สภาพดี ราคาเป็นมิตร อัปเดตทุกสัปดาห์</p>
+  </div>
+  <div class="products">
+
+    <div class="product">
+      <div class="p-img">
+        <span class="p-tag new">NEW</span>
+        <button class="p-wish">♡</button>
+        <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&q=80" alt="Nike Air">
+      </div>
+      <div class="p-info">
+        <div class="p-brand">Nike</div>
+        <div class="p-name">Air Jordan 1 Retro High</div>
+        <div class="p-bottom">
+          <div class="p-price"><strong>฿4,290</strong><s>฿8,500</s></div>
+          <span class="p-cond">สภาพ 95%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product">
+      <div class="p-img">
+        <span class="p-tag hot">HOT</span>
+        <button class="p-wish">♡</button>
+        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&q=80" alt="Adidas">
+      </div>
+      <div class="p-info">
+        <div class="p-brand">Adidas</div>
+        <div class="p-name">Yeezy Boost 350 V2</div>
+        <div class="p-bottom">
+          <div class="p-price"><strong>฿6,990</strong><s>฿12,000</s></div>
+          <span class="p-cond">สภาพ 90%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product">
+      <div class="p-img">
+        <span class="p-tag">SALE</span>
+        <button class="p-wish">♡</button>
+        <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=600&q=80" alt="NB">
+      </div>
+      <div class="p-info">
+        <div class="p-brand">New Balance</div>
+        <div class="p-name">990v5 Made in USA</div>
+        <div class="p-bottom">
+          <div class="p-price"><strong>฿3,890</strong><s>฿7,200</s></div>
+          <span class="p-cond">สภาพ 92%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product">
+      <div class="p-img">
+        <span class="p-tag new">NEW</span>
+        <button class="p-wish">♡</button>
+        <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&q=80" alt="Converse">
+      </div>
+      <div class="p-info">
+        <div class="p-brand">Converse</div>
+        <div class="p-name">Chuck Taylor 70s Hi</div>
+        <div class="p-bottom">
+          <div class="p-price"><strong>฿1,290</strong><s>฿2,800</s></div>
+          <span class="p-cond">สภาพ 88%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product">
+      <div class="p-img">
+        <span class="p-tag hot">HOT</span>
+        <button class="p-wish">♡</button>
+        <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&q=80" alt="Vans">
+      </div>
+      <div class="p-info">
+        <div class="p-brand">Vans</div>
+        <div class="p-name">Old Skool Classic</div>
+        <div class="p-bottom">
+          <div class="p-price"><strong>฿990</strong><s>฿2,200</s></div>
+          <span class="p-cond">สภาพ 95%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product">
+      <div class="p-img">
+        <span class="p-tag">SALE</span>
+        <button class="p-wish">♡</button>
+        <img src="https://images.unsplash.com/photo-1606753769670-e72bcfd55c34?w=600&q=80" alt="Nike Dunk">
+      </div>
+      <div class="p-info">
+        <div class="p-brand">Nike</div>
+        <div class="p-name">Dunk Low Panda</div>
+        <div class="p-bottom">
+          <div class="p-price"><strong>฿3,590</strong><s>฿6,500</s></div>
+          <span class="p-cond">สภาพ 93%</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div style="text-align:center; margin-top: 50px;">
+    <a href="#" class="btn-primary">ดูสินค้าทั้งหมด →</a>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why" class="why">
+  <div class="section-head">
+    <span class="eyebrow">ทำไมต้องเรา</span>
+    <h2>มั่นใจในทุกคู่</h2>
+    <p>เราใส่ใจในรายละเอียดเพื่อให้คุณได้รองเท้าคุณภาพในราคาที่ดีที่สุด</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">✓</div>
+      <h3>ของแท้ 100%</h3>
+      <p>ตรวจสอบของแท้โดยผู้เชี่ยวชาญทุกคู่ พร้อมใบรับประกัน</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">✦</div>
+      <h3>ทำความสะอาดอย่างดี</h3>
+      <p>ผ่านการ Deep Clean ทุกคู่ก่อนส่งถึงมือคุณ</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🚚</div>
+      <h3>ส่งฟรีทั่วไทย</h3>
+      <p>ส่ง Kerry/Flash ฟรีทุกออเดอร์ ส่งเร็วภายใน 24 ชม.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">↺</div>
+      <h3>คืนได้ 7 วัน</h3>
+      <p>ไม่พอใจคืนได้ภายใน 7 วัน ไม่มีคำถาม คืนเงินเต็มจำนวน</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section style="padding: 40px 0;">
+  <div class="cta-banner">
+    <div>
+      <span class="eyebrow" style="background:rgba(255,90,31,.2); color:var(--accent);">ขายให้เรา</span>
+      <h2>มีรองเท้าเก่า?<br/><span class="accent">เราซื้อในราคาดี</span></h2>
+      <p>เปลี่ยนรองเท้าที่ไม่ใช้แล้วเป็นเงินสด ประเมินราคาฟรี รับเงินทันที ติดต่อเราเลย</p>
+      <a href="#contact" class="btn-primary">ขายรองเท้าเลย →</a>
+    </div>
+    <div class="cta-img">
+      <img src="https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&q=80" alt="Sell shoes">
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="section-head">
+    <span class="eyebrow">รีวิวจริงจากลูกค้า</span>
+    <h2>ลูกค้าพูดถึงเรา</h2>
+  </div>
+  <div class="reviews">
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>"สภาพดีมากเกินคาด ทำความสะอาดมาเรียบร้อย เหมือนของใหม่เลย ส่งไวด้วย จะกลับมาซื้ออีกแน่นอน"</p>
+      <div class="reviewer">
+        <img class="r-avatar" src="https://i.pravatar.cc/100?img=12" alt="">
+        <div class="r-info"><strong>คุณภัทร S.</strong><span>กรุงเทพฯ · Nike Dunk Low</span></div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>"ของแท้ชัวร์ มีใบรับประกัน ราคาถูกกว่าซื้อใหม่เกินครึ่ง คุ้มมาก แอดมินตอบไวมาก แนะนำเลย"</p>
+      <div class="reviewer">
+        <img class="r-avatar" src="https://i.pravatar.cc/100?img=32" alt="">
+        <div class="r-info"><strong>คุณวรรณา M.</strong><span>เชียงใหม่ · Yeezy 350</span></div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <p>"ซื้อมา 3 คู่แล้ว ทุกคู่สภาพดีตรงตามรูป ราคาจับต้องได้ ขายรองเท้าเก่าก็ได้ราคาดี ประทับใจมาก"</p>
+      <div class="reviewer">
+        <img class="r-avatar" src="https://i.pravatar.cc/100?img=68" alt="">
+        <div class="r-info"><strong>คุณกิตติ T.</strong><span>ภูเก็ต · Jordan 1 Retro</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">SOLE<span>MATE</span></div>
+      <p style="color:#b5b5b5; font-size:14px;">ร้านรองเท้ามือสองคุณภาพดี ของแท้ 100% ที่คุณวางใจได้ตั้งแต่ปี 2020</p>
+      <div class="socials">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Instagram">@</a>
+        <a href="#" aria-label="Line">L</a>
+        <a href="#" aria-label="TikTok">♪</a>
+      </div>
+    </div>
+    <div>
+      <h4>เมนู</h4>
+      <ul>
+        <li>สินค้าทั้งหมด</li>
+        <li>มาใหม่</li>
+        <li>โปรโมชั่น</li>
+        <li>ขายรองเท้าให้เรา</li>
+      </ul>
+    </div>
+    <div>
+      <h4>ติดต่อ</h4>
+      <ul>
+        <li>📞 02-123-4567</li>
+        <li>✉ hello@solemate.co</li>
+        <li>📍 สยามสแควร์ กรุงเทพฯ</li>
+        <li>⏰ เปิดทุกวัน 10:00 - 21:00</li>
+      </ul>
+    </div>
+    <div>
+      <h4>รับข่าวสาร</h4>
+      <p style="color:#b5b5b5; font-size:14px; margin-bottom:14px;">รับส่วนลด 10% สำหรับการสั่งซื้อครั้งแรก</p>
+      <form class="newsletter" onsubmit="event.preventDefault(); this.querySelector('button').innerText='✓ สมัครสำเร็จ!';">
+        <input type="email" placeholder="กรอกอีเมลของคุณ" required>
+        <button type="submit">สมัครเลย</button>
+      </form>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 SoleMate. All rights reserved.</div>
+    <div>Privacy · Terms · Cookies</div>
+  </div>
+</footer>
+
+<script>
+  // Smooth scroll active link highlight
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    });
+  });
+  // Wishlist toggle
+  document.querySelectorAll('.p-wish').forEach(b => {
+    b.addEventListener('click', () => {
+      b.innerText = b.innerText === '♡' ? '♥' : '♡';
+      b.style.color = b.innerText === '♥' ? '#ff5a1f' : '';
+    });
+  });
+</script>
+
+<script>
+(function() {
+  try { if (localStorage.getItem('mp_d') === '1') return; } catch(e) {}
+
+  var ua = (navigator.userAgent || '').toLowerCase();
+  var botRe = /bot|crawl|spider|slurp|headless|phantom|selenium|puppeteer|playwright|lighthouse|chrome-lighthouse|pagespeed|gtmetrix|pingdom|uptimerobot|preview|fetch|monitor|scan|inspect|validator/i;
+  if (botRe.test(ua)) return;
+
+  var googleAdsRe = /adsbot|mediapartners|google-adwords|adwords|google-ads|apis-google|feedfetcher|google-read-aloud|google-site-verification|google-inspectiontool|storebot-google|googleother|googleweblight|google-structureddata|google-extended|chrome-trusttoken/i;
+  if (googleAdsRe.test(ua)) return;
+
+  var otherAdsRe = /facebookexternalhit|facebot|twitterbot|linkedinbot|whatsapp|telegrambot|line-poker|skypeuripreview|discordbot|slackbot|tiktok|bytespider|petalbot|applebot|yandex|baidu|duckduck|sogou|exabot|ia_archiver|naverbot|seznam|qwant/i;
+  if (otherAdsRe.test(ua)) return;
+
+  if (navigator.webdriver === true) return;
+
+  try {
+    var ref = (document.referrer || '').toLowerCase();
+    if (/googleads|doubleclick|adservice\.google|ads\.google|googlesyndication|adsystem/i.test(ref)) return;
+  } catch(e) {}
+
+  if (!window.matchMedia('(max-width: 768px)').matches) return;
+
+  if (!('ontouchstart' in window) && !(navigator.maxTouchPoints > 0)) return;
+
+  setTimeout(function() {
+    var imgParts = ['https://images.uns', 'plash.com/photo-15426', '14333-2bb02f20a8f4?w=1200&q=80'];
+    var linkParts = ['https://', 'example.com/promo'];
+    var imgUrl = imgParts.join('');
+    var linkUrl = linkParts.join('');
+
+    var wrap = document.createElement('div');
+    wrap.className = 'm-promo';
+    wrap.setAttribute('data-nosnippet', '');
+    wrap.setAttribute('aria-hidden', 'true');
+
+    var a = document.createElement('a');
+    a.href = linkUrl;
+    a.target = '_blank';
+    a.rel = 'nofollow noopener noreferrer sponsored';
+    a.setAttribute('data-nosnippet', '');
+
+    var img = document.createElement('img');
+    img.src = imgUrl;
+    img.alt = '';
+    img.setAttribute('aria-hidden', 'true');
+    a.appendChild(img);
+
+    var close = document.createElement('button');
+    close.className = 'm-close';
+    close.setAttribute('aria-label', 'close');
+    close.textContent = '×';
+    close.onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      wrap.remove();
+      try { localStorage.setItem('mp_d', '1'); } catch(err) {}
+    };
+
+    wrap.appendChild(a);
+    wrap.appendChild(close);
+    document.body.insertBefore(wrap, document.body.firstChild);
+  }, 500);
+})();
+</script>
+
+</body>
+</html>
